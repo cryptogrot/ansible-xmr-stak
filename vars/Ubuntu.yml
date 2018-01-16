@@ -1,0 +1,13 @@
+---
+# file: xmr-stak/vars/Ubuntu.yml
+xmr_stak_packages:
+  - libmicrohttpd-dev
+  - libssl-dev
+  - build-essential
+  - libhwloc-dev
+  - cmake
+  - git
+  - gcc
+  - g++
+  - ocl-icd-opencl-dev
+  - screen

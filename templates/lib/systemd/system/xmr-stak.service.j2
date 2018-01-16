@@ -1,0 +1,19 @@
+# {{ ansible_managed }}
+[Unit]
+Description=Running xmr-stak miner daemon
+After=network.target
+
+[Service]
+LimitMEMLOCK=infinity
+WorkingDirectory={{ xmr_stak_config_dir }}
+Type=simple
+User={{ xmr_stak_user }}
+Group={{ xmr_stak_group }}
+ExecStart=/usr/bin/xmr-stak -c {{ xmr_stak_config_dir }}/config.txt --cpu {{ xmr_stak_config_dir }}/cpu.txt
+RemainAfterExit=yes
+Restart=always
+TimeoutSec=0
+StandardOutput=journal+console
+
+[Install]
+WantedBy=multi-user.target

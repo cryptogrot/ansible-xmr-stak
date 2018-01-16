@@ -1,0 +1,16 @@
+---
+# file: roles/xmr-stak/tasks/clean.yml
+- name: Cleaning xmr-stak Git sources
+  file:
+    path: "{{ xmr_stak_dir }}"
+    state: absent
+
+- name: Cleaning APT/YUM cache
+  shell: |
+    {% if ansible_os_family == "RedHat" %}
+      yum clean all
+    {% elif ansible_os_family == "Debian" %}
+      apt clean && apt autoremove -y
+    {% endif%}
+  args:
+    warn: false

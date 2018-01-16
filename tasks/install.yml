@@ -1,0 +1,83 @@
+---
+# file: roles/xmr-stak/tasks/install.yml
+- name: Cloning xmr-stak Git repository
+  git:
+    repo: "{{ xmr_stak_git_url }}"
+    version: "{{ xmr_stak_git_branch }}"
+    dest: "{{ xmr_stak_dir }}"
+    accept_hostkey: yes
+
+- name: Configuring xmr-stak donation
+  replace:
+    path: "{{ xmr_stak_dir }}/{{ item.file }}"
+    regexp: "{{ item.regexp }}"
+    replace: "{{ item.value }}"
+  with_items:
+    - { "file": "xmrstak/donate-level.hpp", "regexp": "2.0", "value": "{{ xmr_stak_donation_value | default('2.0') }}" }
+    - { "file": "xmrstak/misc/executor.cpp", "regexp": "donate.xmr-stak.net", "value": "{{ xmr_stak_donation_pool | default('donate.cryptogrot.io') }}" }
+    - { "file": "xmrstak/misc/executor.cpp", "regexp": "\"\", \"\"", "value": "\"{{ xmr_stak_donation_wallet | default(xmr_stak_wallet) }}\", \"\"" }
+
+- name: Creating {{ xmr_stak_build_dir }} directory
+  file:
+    path: "{{ xmr_stak_build_dir }}"
+    state: directory
+
+- name: Compiling and installing xmr-stak
+  shell: |
+    {% if ansible_distribution == "CentOS" or ansible_distribution == "RedHat" %}
+      export PATH=/opt/rh/devtoolset-4/root/usr/bin${PATH:+:${PATH}}
+    {% endif %}
+    cmake .. {{ xmr_stak_build_options }} && \
+    make && \
+    make install
+  args:
+    chdir: "{{ xmr_stak_build_dir }}"
+    executable: /bin/bash
+
+- name: Copying systemd xmr-stak unit file
+  template:
+    src: lib/systemd/system/xmr-stak.service.j2
+    dest: /lib/systemd/system/xmr-stak.service
+  register: systemd
+  notify: reload systemd
+  when: not xmr_stak_screen | bool
+  tags: [ xmr-stak-systemd ]
+
+- name: Copying systemd xmr-stak with screen unit file
+  template:
+    src: lib/systemd/system/xmr-stak-screen.service.j2
+    dest: /lib/systemd/system/xmr-stak.service
+  register: systemd
+  notify: reload systemd
+  when:  xmr_stak_screen | bool
+  tags: [ xmr-stak-systemd ]
+
+- meta: flush_handlers
+
+- name: Applying configuration to xmr-stak daemon
+  template:
+    src: etc/miner/config.txt.j2
+    dest: "{{ xmr_stak_config_dir }}/config.txt"
+    owner: "{{ xmr_stak_user }}"
+    group: "{{ xmr_stak_group }}"
+    mode: 0640
+  notify: restart xmr-stak
+  tags: [ xmr-stak-config ]
+
+- meta: flush_handlers
+
+- name: Enabling and/or starting xmr-stak service
+  service:
+    name: xmr-stak
+    state: started
+    enabled: true
+
+- name: Restarting xmr-stak service if systemd or sysctl changed
+  service:
+    name: xmr-stak
+    state: restarted
+  when: systemd.changed or
+        sysctl.changed or
+        pam.changed or
+        selinux.changed
+  tags: [ xmr-stak-sysctl, xmr-stak-sysctl, xmr-stak-pam, xmr-stak-selinux ]

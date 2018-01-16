@@ -1,0 +1,18 @@
+# {{ ansible_managed }}
+[Unit]
+Description=Running xmr-stak miner in screen session
+After=network.target
+
+[Service]
+LimitMEMLOCK=infinity
+WorkingDirectory={{ xmr_stak_config_dir }}
+Type=forking
+User={{ xmr_stak_user }}
+Group={{ xmr_stak_group }}
+ExecStart=/usr/bin/screen -dmfa -S xmr-stak /usr/bin/xmr-stak -c {{ xmr_stak_config_dir }}/config.txt --cpu {{ xmr_stak_config_dir }}/cpu.txt
+ExecStop=/usr/bin/screen -X -S xmr-stak quit
+Restart=always
+KillMode=none
+
+[Install]
+WantedBy=multi-user.target

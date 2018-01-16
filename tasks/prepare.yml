@@ -1,0 +1,104 @@
+---
+# file: roles/xmr-stak/tasks/prepare.yml
+- name: Creating {{ xmr_stak_group }} system group
+  group:
+    name: "{{ xmr_stak_group }}"
+    gid: "{{ xmr_stak_gid }}"
+
+- name: Creating {{ xmr_stak_user }} system user
+  user:
+    name: "{{ xmr_stak_user }}"
+    uid: "{{ xmr_stak_uid }}"
+    group: "{{ xmr_stak_group }}"
+    comment: "xmr-stak mining user"
+    shell: "/bin/{{ 'bash' if xmr_stak_screen else 'false' }}"
+    home: "{{ xmr_stak_config_dir }}"
+
+- name: Creating xmt-stak directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ xmr_stak_user }}"
+    group: "{{ xmr_stak_group }}"
+    mode: 0750
+  with_items:
+    - "{{ xmr_stak_config_dir }}"
+    - "{{ xmr_stak_log_dir }}"
+
+- name: Preparing distribution (CentOS 7 only)
+  package:
+    name: "{{ item }}"
+  with_items:
+    - centos-release-scl
+    - epel-release
+  when: ansible_distribution == "CentOS" or 
+        ansible_distribution == "RedHat"
+
+- name: Installing xmr-stak dependencies
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items: "{{ xmr_stak_packages }}"
+
+- name: Linking cmake to cmake3 (CentOS 7 only)
+  file:
+    src: /usr/bin/cmake3
+    dest: /usr/bin/cmake
+    state: link
+  when: ansible_distribution == "CentOS" or 
+        ansible_distribution == "RedHat"
+
+- name: Enabling kernel hugepages
+  sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+    sysctl_file: /etc/sysctl.d/10-hugepages.conf
+  register: sysctl
+  with_items:
+    - { "key": "vm.nr_hugepages", "value": "{{ xmr_stak_hugepages_size }}" }
+    - { "key": "vm.hugetlb_shm_group", "value": "{{ xmr_stak_gid }}" }
+  tags: [ xmr-stak-sysctl ]
+
+- name: Setting hugepages PAM limits for {{ xmr_stak_user }} user
+  pam_limits:
+    domain: "{{ xmr_stak_user }}"
+    limit_type: "-"
+    limit_item: memlock
+    value: "{{ xmr_stak_hugepages_size * 2048 }}"
+    comment: "xmr-stak"
+    dest: /etc/security/limits.d/10-hugepages.conf
+  register: pam
+  tags: [ xmr-stak-pam ]
+
+- name: Downloading Nvidia Cuda installer
+  get_url:
+    url: "{{ xmr_stak_cuda_file }}"
+    dest: "{{ xmr_stak_tmp_dir | default('/tmp') }}/cuda_installer.run"
+  when: xmr_stak_nvidia_support | bool
+
+- name: Installing Nvidia Cuda Toolkit
+  command:
+    /bin/bash cuda_installer.run --silent --toolkit --override
+  args:
+    chdir: "{{ xmr_stak_tmp_dir | default('/tmp') }}"
+  when: xmr_stak_nvidia_support | bool
+
+- name: Copying SELinux module file
+  copy:
+    src: etc/miner/xmr-stak-screen.te
+    dest: "{{ xmr_stak_config_dir }}/xmr-stak-screen.te"
+  register: selinux
+  when: ansible_os_family == "RedHat" and
+        xmr_stak_screen | bool
+  tags: [ xmr-stak-selinux ]
+
+- name: Applying SELinux rules to allow screen within systemd
+  shell:
+    /usr/bin/checkmodule -M -m -o {{ xmr_stak_config_dir }}/xmr-stak-screen.mod {{ xmr_stak_config_dir }}/xmr-stak-screen.te && \
+    /usr/bin/semodule_package -m {{ xmr_stak_config_dir }}/xmr-stak-screen.mod -o {{ xmr_stak_config_dir }}/xmr-stak-screen.pp && \
+    /usr/sbin/semodule -X 300 -i {{ xmr_stak_config_dir }}/xmr-stak-screen.pp && \
+    rm -f {{ xmr_stak_config_dir }}/xmr-stak-screen.pp
+  when: ansible_os_family == "RedHat" and
+        xmr_stak_screen | bool and
+        selinux.changed
+  tags: [ xmr-stak-selinux ]

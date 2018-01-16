@@ -1,0 +1,12 @@
+---
+# file: roles/xmr-stak/defaults/main.yml
+- include_vars: "{{ ansible_distribution }}.yml"
+
+- import_tasks: prepare.yml
+  tags: [ xmr-stak, xmr-stak-prepare ]
+
+- import_tasks: install.yml
+  tags: [ xmr-stak, xmr-stak-install ]
+
+- import_tasks: clean.yml
+  tags: [ xmr-stak, xmr-stak-clean ]

@@ -1,0 +1,15 @@
+---
+# file: roles/xmr-stak/vars/main.yml
+xmr_stak_git_url: https://github.com/fireice-uk/xmr-stak.git
+xmr_stak_git_branch: master
+xmr_stak_dir: /opt/xmr-stak
+xmr_stak_build_dir: /opt/xmr-stak/build
+xmr_stak_config_dir: /etc/miner
+xmr_stak_log_dir: /var/log/miner
+xmr_stak_hugepages_size: 128
+xmr_stak_cuda_file: https://developer.nvidia.com/compute/cuda/9.1/Prod/local_installers/cuda_9.1.85_387.26_linux
+xmr_stak_wallet: iz4gjHNRvPnhGibn7QS41rRdKYnRSD91xcecqPfR3Ti9ZKXZASusYjxi4HcafJg4Pnass13Rif52s1ySyqdQuymy2th21urXx
+xmr_stak_user: miner
+xmr_stak_group: miner
+xmr_stak_uid: 3000
+xmr_stak_gid: 3000

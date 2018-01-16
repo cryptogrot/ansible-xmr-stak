@@ -1,0 +1,18 @@
+module xmr-stak-screen 1.0;
+
+require {
+	type devpts_t;
+	type screen_var_run_t;
+	type ptmx_t;
+	type screen_exec_t;
+	type init_t;
+	class file { execute execute_no_trans map open read };
+	class chr_file { ioctl open read setattr write };
+	class sock_file write;
+}
+
+#============= init_t ==============
+allow init_t devpts_t:chr_file setattr;
+allow init_t ptmx_t:chr_file { ioctl open read write };
+allow init_t screen_exec_t:file { execute execute_no_trans map open read };
+allow init_t screen_var_run_t:sock_file write;

@@ -1,0 +1,14 @@
+---
+# file: roles/xmr-stak/defaults/main.yml
+xmr_stak_pool_address: itns001.cryptogrot.io
+xmr_stak_pool_port: 6666
+xmr_stak_wallet_address: iz4gjHNRvPnhGibn7QS41rRdKYnRSD91xcecqPfR3Ti9ZKXZASusYjxi4HcafJg4Pnass13Rif52s1ySyqdQuymy2th21urXx
+xmr_stak_nvidia_support: false
+xmr_stak_amd_support: false
+xmr_stak_cpu_support: false
+xmr_stak_httpd_support: false
+xmr_stak_hwloc_support: false
+xmr_stak_ssl_support: true
+xmr_stak_build_options: "-DHWLOC_ENABLE={{ 'ON' if xmr_stak_hwloc_support else 'OFF' }} -DCUDA_ENABLE={{ 'ON' if xmr_stak_nvidia_support else 'OFF' }} -DOpenCL_ENABLE={{ 'ON' if xmr_stak_amd_support else 'OFF' }} {{ '-DOpenCL_LIBRARY=/usr/lib64/libOpenCL.so.1' if xmr_stak_amd_support and ansible_os_family == 'RedHat' else '' }} -DCPU_ENABLE={{ 'ON' if xmr_stak_cpu_support else 'OFF' }} -DXMR-STAK_CURRENCY=ALL -DCMAKE_INSTALL_PREFIX:PATH=/usr -DMICROHTTPD_ENABLE={{ 'ON' if xmr_stak_httpd_support else 'OFF' }} -DOpenSSL_ENABLE={{ 'ON' if xmr_stak_ssl_support else 'OFF' }} {{ xmr_stak_buid_extra_options }}"
+xmr_stak_buid_extra_options: ""
+xmr_stak_screen: false

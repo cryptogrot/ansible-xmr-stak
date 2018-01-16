@@ -1,0 +1,17 @@
+---
+# file: xmr-stak/vars/Fedora.yml
+xmr_stak_packages:
+  - git
+  - gcc
+  - gcc-c++
+  - hwloc-devel
+  - libmicrohttpd-devel
+  - libstdc++-static
+  - make
+  - openssl-devel
+  - cmake
+  - ocl-icd
+  - opencl-headers
+  - screen
+  - setroubleshoot
+  - setools

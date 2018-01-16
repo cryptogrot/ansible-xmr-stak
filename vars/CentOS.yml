@@ -1,0 +1,15 @@
+---
+# file: xmr-stak/vars/CentOS.yml
+xmr_stak_packages:
+  - git
+  - devtoolset-4-gcc*
+  - hwloc-devel
+  - libmicrohttpd-devel
+  - openssl-devel
+  - make
+  - cmake3
+  - ocl-icd
+  - opencl-headers
+  - screen
+  - setroubleshoot
+  - setools

@@ -1,0 +1,58 @@
+galaxy_info:
+  author: cryptogrot
+  description: Install and configure xmr-stak mining tool
+  company: CryptoGrot.io
+
+  #issue_tracker_url: http://example.com/issue/tracker
+  #github_branch:
+
+  license: GPLv3
+
+  min_ansible_version: 2.4
+
+  platforms:
+    - name: Fedora
+      versions:
+      - 24
+      - 25
+      - 26
+      - 27
+    - name: CentOS
+      versions:
+      - 7
+    - name: RedHat
+      versions:
+      - 7
+    - name: Debian
+      versions:
+      - stretch
+      - buster
+      - sid
+    - name: Ubuntu
+      versions:
+      - xenial
+      - zesty
+      - artful
+      - bionic
+
+  galaxy_tags:
+    - intensecoin
+    - itns
+    - xmr-stak
+    - monero
+    - aeon
+    - cryptonight
+    - cryptonight-ligth
+    - cuda
+    - cpu
+    - nvidia
+    - amd
+    - opencl
+    - mining
+    - miner
+    - coins
+    - cryptocurrency
+    - bitcoin
+    - currency
+
+dependencies: []
