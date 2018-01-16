@@ -8,7 +8,7 @@ Supported backend types:
 - AMD/ATI *(OpenCL)*
 - CPU
 
-This role enable and configure the Linux Kernel hugepages to provide the best performances and so a better hashrate.
+This role enables and configures the Linux Kernel hugepages to provide the best performances and so a better hashrate.
 
 To increase security, a dedicated system user *(`miner`)* will be created, this user will have the Kernel hugepages configure for the `soft` and `hard` limits.
 
@@ -29,8 +29,10 @@ With the `screen` method on RedHat family distributions some SELinux rules have 
 By default we dediced to let `xmr-stak` generate the correct CPU *affinity/configuration*, of course this could be changed by editing the `cpu.txt` configuration file in `/etc/miner/` directory.
 
 Supported algorithms:
-- Monero *(the one configured by default)*
-- AEON
+- Cryptonigth *(the one configured by default)*
+  - *(Monero, Sumokin, Electroneum, Intense, etc...)*
+- Cryptonigth-ligth
+  - *(AEON, etc...)*
 
 For more information about the `xmr-stak` miner, please have a look [here](https://github.com/fireice-uk/xmr-stak "here").
 
