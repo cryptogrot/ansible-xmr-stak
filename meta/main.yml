@@ -17,15 +17,12 @@ galaxy_info:
       - 25
       - 26
       - 27
-    - name: CentOS
-      versions:
-      - 7
-    - name: RedHat
+    - name: EL
       versions:
       - 7
     - name: Debian
       versions:
-      - 9
+      - stretch
     - name: Ubuntu
       versions:
       - xenial
