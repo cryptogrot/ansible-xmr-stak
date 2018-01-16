@@ -35,11 +35,12 @@ galaxy_info:
   galaxy_tags:
     - intensecoin
     - itns
-    - xmr-stak
+    - xmrstak
+    - xmr
+    - altcoins
     - monero
     - aeon
     - cryptonight
-    - cryptonight-ligth
     - cuda
     - cpu
     - nvidia
