@@ -184,7 +184,7 @@ Please find below few examples of Ansible playbook to configure the `xmr-stak` m
     - xmr_stak_wallet_address: iz69...ihJF5FY7ed319xS...1kXj1N7yRa...Gmwfrh
 
   roles:
-    - xmr-stak
+    - cryptogrot.xmr-stak
 ```
 
 #### AMD GPU
@@ -202,7 +202,7 @@ Please find below few examples of Ansible playbook to configure the `xmr-stak` m
     - xmr_stak_wallet_address: iz69...ihJF5FY7ed319xS...1kXj1N7yRa...Gmwfrh
 
   roles:
-    - xmr-stak
+    - cryptogrot.xmr-stak
 ```
 
 #### NVIDIA GPU
@@ -220,7 +220,7 @@ Please find below few examples of Ansible playbook to configure the `xmr-stak` m
     - xmr_stak_wallet_address: iz69...ihJF5FY7ed319xS...1kXj1N7yRa...Gmwfrh
 
   roles:
-    - xmr-stak
+    - cryptogrot.xmr-stak
 ```
 
 License
