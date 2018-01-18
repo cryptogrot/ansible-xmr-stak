@@ -23,6 +23,7 @@ galaxy_info:
     - name: Debian
       versions:
       - stretch
+      - sid
     - name: Ubuntu
       versions:
       - xenial
