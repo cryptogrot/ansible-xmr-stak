@@ -1,10 +1,10 @@
 galaxy_info:
   author: cryptogrot
-  description: Install and configure xmr-stak mining tool
+  description:  Install and configure xmr-stak miner for cryptonight* currencies on Linux
   company: CryptoGrot.io
 
-  #issue_tracker_url: http://example.com/issue/tracker
-  #github_branch:
+  issue_tracker_url: https://github.com/cryptogrot/ansible-xmr-stak/issues
+  github_branch: master
 
   license: GPLv3
 
