@@ -2,7 +2,7 @@
 # file: roles/xmr-stak/defaults/main.yml
 xmr_stak_pool_address: itns001.cryptogrot.io
 xmr_stak_pool_port: 6666
-xmr_stak_wallet_address: iz4gjHNRvPnhGibn7QS41rRdKYnRSD91xcecqPfR3Ti9ZKXZASusYjxi4HcafJg4Pnass13Rif52s1ySyqdQuymy2th21urXx
+xmr_stak_wallet_address: iz56ebM5Km9bcxunoLHWY8HWp7Wo5EV29AFZjWd8j4k6XF4Sk4JGSxJKSAHDeUWgP2XpV8goDexp5TULokjn7ar114etLhNWq
 xmr_stak_nvidia_support: false
 xmr_stak_amd_support: false
 xmr_stak_cpu_support: false
