@@ -64,7 +64,7 @@ The Ansible inventory as to be created in `~/ansible/inventories/xmr-stak/hosts`
 192.168.0.[13:30] ansible_user=debian ansible_port=22
 ```
 
-### CPU backend
+### CPU
 
 ```
 $ ansible-playbook -i ~/ansible/inventories/xmr-stak/hosts \
@@ -76,7 +76,7 @@ $ ansible-playbook -i ~/ansible/inventories/xmr-stak/hosts \
 	xmr_stak_wallet_address=iz69...ihJF5FY7ed319xS...1kXj1N7yRa...Gmwfrh"
 ```
 
-### NVIDIA backend
+### NVIDIA
 
 ```
 $ ansible-playbook -i ~/ansible/inventories/xmr-stak/hosts \
@@ -87,7 +87,7 @@ $ ansible-playbook -i ~/ansible/inventories/xmr-stak/hosts \
 	xmr_stak_wallet_address=iz69...ihJF5FY7ed319xS...1kXj1N7yRa...Gmwfrh"
 ```
 
-### AMD/ATI backend
+### AMD/ATI
 
 ```
 $ ansible-playbook -i ~/ansible/inventories/xmr-stak/hosts \
