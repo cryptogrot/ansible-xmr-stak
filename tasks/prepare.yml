@@ -64,7 +64,7 @@
     domain: "{{ xmr_stak_user }}"
     limit_type: "-"
     limit_item: memlock
-    value: "{{ xmr_stak_hugepages_size * 2048 }}"
+    value: "{{ xmr_stak_hugepages_size | default (128) * 2048 }}"
     comment: "xmr-stak"
     dest: /etc/security/limits.d/10-hugepages.conf
   register: pam
