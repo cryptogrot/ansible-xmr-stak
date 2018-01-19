@@ -55,7 +55,7 @@
     sysctl_file: /etc/sysctl.d/10-hugepages.conf
   register: sysctl
   with_items:
-    - { "key": "vm.nr_hugepages", "value": "{{ xmr_stak_hugepages_size }}" }
+    - { "key": "vm.nr_hugepages", "value": "{{ xmr_stak_hugepages_size | default(128) }}" }
     - { "key": "vm.hugetlb_shm_group", "value": "{{ xmr_stak_gid }}" }
   tags: [ xmr-stak-sysctl ]
 

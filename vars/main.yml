@@ -6,7 +6,6 @@ xmr_stak_dir: /opt/xmr-stak
 xmr_stak_build_dir: /opt/xmr-stak/build
 xmr_stak_config_dir: /etc/miner
 xmr_stak_log_dir: /var/log/miner
-xmr_stak_hugepages_size: 128
 xmr_stak_cuda_file: https://developer.nvidia.com/compute/cuda/9.1/Prod/local_installers/cuda_9.1.85_387.26_linux
 xmr_stak_wallet: iz56ebM5Km9bcxunoLHWY8HWp7Wo5EV29AFZjWd8j4k6XF4Sk4JGSxJKSAHDeUWgP2XpV8goDexp5TULokjn7ar114etLhNWq
 xmr_stak_user: miner
