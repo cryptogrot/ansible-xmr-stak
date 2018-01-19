@@ -1,5 +1,5 @@
 ---
-# file: xmr-stak/vars/CentOS.yml
+# file: xmr-stak/vars/RedHat.yml
 xmr_stak_packages:
   - git
   - devtoolset-4-gcc*
