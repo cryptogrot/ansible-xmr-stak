@@ -1,5 +1,16 @@
 ---
 # file: roles/xmr-stak/tasks/prepare.yml
+- name: Checking if {{ xmr_stak_dir }} directory exists
+  stat:
+    path: "{{ xmr_stak_dir }}"
+  register: dir
+
+- name: Removing existing {{ xmr_stak_dir }} directory
+  file:
+    path: "{{ xmr_stak_dir }}"
+    state: absent
+  when: dir.stat.exists
+
 - name: Creating {{ xmr_stak_group }} system group
   group:
     name: "{{ xmr_stak_group }}"
