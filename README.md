@@ -179,7 +179,7 @@ It is possible to run only few parts of the role, that could be very useful if y
 
 For example, to reconfigure `xmr-stak`, the Ansible command would be:
 ```
-$ ansible-playbook -i ~/ansible/inventories/xmr-stak/hosts ~/ansible/playbooks/xmr-stak/site.yml -e "xmr_stak_cpu_support=true xmr_stak_hwloc_support=true xmr_stak_pool_address=itns001.cryptogrot.io xmr_stak_pool_port=6666 xmr_stak_pool_wallet=iz69...ihJF5FY7ed319xS...1kXj1N7yRa...Gmwfrh -t xmr-stak-config"
+$ ansible-playbook -i ~/ansible/inventories/xmr-stak/hosts ~/ansible/playbooks/xmr-stak/site.yml -e "xmr_stak_cpu_support=true xmr_stak_hwloc_support=true xmr_stak_pool_address=itns001.cryptogrot.io xmr_stak_pool_port=6666 xmr_stak_pool_wallet=iz69...ihJF5FY7ed319xS...1kXj1N7yRa...Gmwfrh" -t xmr-stak-config
 ```
 If something changed in the `config.txt` file, the `xmr-stak` service will be restarted.
 
