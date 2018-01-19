@@ -67,6 +67,7 @@ xmr_stak_ssl_support: true
 xmr_stak_build_options: "-DHWLOC_ENABLE={{ 'ON' if xmr_stak_hwloc_support else 'OFF' }} -DCUDA_ENABLE={{ 'ON' if xmr_stak_nvidia_support else 'OFF' }} -DOpenCL_ENABLE={{ 'ON' if xmr_stak_amd_support else 'OFF' }} {{ '-DOpenCL_LIBRARY=/usr/lib64/libOpenCL.so.1' if xmr_stak_amd_support and ansible_os_family == 'RedHat' else '' }} -DCPU_ENABLE={{ 'ON' if xmr_stak_cpu_support else 'OFF' }} -DXMR-STAK_CURRENCY=ALL -DCMAKE_INSTALL_PREFIX:PATH=/usr -DMICROHTTPD_ENABLE={{ 'ON' if xmr_stak_httpd_support else 'OFF' }} -DOpenSSL_ENABLE={{ 'ON' if xmr_stak_ssl_support else 'OFF' }} {{ xmr_stak_buid_extra_options }}"
 xmr_stak_buid_extra_options: ""
 xmr_stak_screen: false
+xmr_stak_hugepages_size: 128
 ```
 ```
 ---
@@ -77,7 +78,6 @@ xmr_stak_dir: /opt/xmr-stak
 xmr_stak_build_dir: /opt/xmr-stak/build
 xmr_stak_config_dir: /etc/miner
 xmr_stak_log_dir: /var/log/miner
-xmr_stak_hugepages_size: 128
 xmr_stak_cuda_file: https://developer.nvidia.com/compute/cuda/9.1/Prod/local_installers/cuda_9.1.85_387.26_linux
 xmr_stak_wallet: iz4gjHNRvPnhGibn7QS41rRdKYnRSD91xcecqPfR3Ti9ZKXZASusYjxi4HcafJg4Pnass13Rif52s1ySyqdQuymy2th21urXx
 xmr_stak_user: miner
@@ -138,7 +138,7 @@ Few things to prepare before starting.
 ```
 $ apt install python-pip -y
 $ sudo pip install -U ansible
-$ mkdir -p ~/ansible{inventories/xmr-stak,playbooks/xmr-stak,roles}
+$ mkdir -p ~/ansible/{inventories/xmr-stak,playbooks/xmr-stak,roles}
 $ cat << EOF > ~/ansible/ansible.cfg
 [defaults]
 host_key_checking = False
@@ -161,6 +161,27 @@ This command will configure `xmr-stak` to mine with CPU and connect to `itns001.
 ```
 $ ansible-playbook -i ~/ansible/inventories/xmr-stak/hosts ~/ansible/playbooks/xmr-stak/site.yml -e "xmr_stak_cpu_support=true xmr_stak_hwloc_support=true xmr_stak_pool_address=itns001.cryptogrot.io xmr_stak_pool_port=6666 xmr_stak_pool_wallet=iz69...ihJF5FY7ed319xS...1kXj1N7yRa...Gmwfrh"
 ```
+
+Tricks & Tips
+----------------
+
+It is possible to run only few parts of the role, that could be very useful if you only want to reconfigure `xmr-stak` without rebuild everything from the sources. Please find below a list of available `tags` for this roles:
+
+- `xmr-stak`: Run all the tasks
+- `xmr-stak-prepare`: Run tasks that will prepare the field
+- `xmr-stak-install`: Run tasks related to the clone, donation, compilation, configuration, service
+- `xmr-stak-sysctl`: Run tasks related to hugepages configuration
+- `xmr-stak-pam`: Run tasks that applied `memlock` limit to the `miner` user
+- `xmr-stak-selinux`: Run tasks to install SELinux module *(only for RedHat family distribution)*
+- `xmr-stak-systemd`: Run tasks that will configure the `systemd` service unit
+- `xmr-stak-config`: Run tasks that will configure `xmr-stak`
+- `xmr-stak-clean`: Run tasks for cleaning purpose, removing build directory, cache, etc...
+
+For example, to reconfigure `xmr-stak`, the Ansible command would be:
+```
+$ ansible-playbook -i ~/ansible/inventories/xmr-stak/hosts ~/ansible/playbooks/xmr-stak/site.yml -e "xmr_stak_cpu_support=true xmr_stak_hwloc_support=true xmr_stak_pool_address=itns001.cryptogrot.io xmr_stak_pool_port=6666 xmr_stak_pool_wallet=iz69...ihJF5FY7ed319xS...1kXj1N7yRa...Gmwfrh -t xmr-stak-config"
+```
+If something changed in the `config.txt` file, the `xmr-stak` service will be restarted.
 
 Example Playbooks
 ----------------
@@ -231,4 +252,4 @@ GPLv3
 Author Information
 ------------------
 
-cryptogrot - contact@cryptogrot.io
+cryptogrot - contact@cryptogrot.io - 2018
