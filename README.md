@@ -50,6 +50,16 @@ $ cat << EOF > ~/ansible/ansible.cfg
 host_key_checking = False
 roles_path = ./roles
 EOF
+$ cat << EOF > ~/ansible/playbooks/xmr-stak/site.yml
+---
+- name: Building xmr-stak miner program
+  hosts: all
+  user: debian
+  become: true
+
+  roles:
+    - cryptogrot.xmr-stak
+EOF
 $ ansible-galaxy install --force --roles-path ~/ansible/roles cryptogrot.xmr-stak
 ```
 
