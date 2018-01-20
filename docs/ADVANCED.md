@@ -129,6 +129,8 @@ The role doesn't have any dependency, you could just run `ansible-galaxy install
 
 ## Make it run
 
+### Pre-requirements
+
 Few things to prepare before starting.
 Ubuntu/Debian
 ```
@@ -142,6 +144,8 @@ CentOS 7
 ```
 $ sudo yum install python-pip -y
 ```
+
+### Deployment
 
 ```
 $ sudo pip install -U pip ansible

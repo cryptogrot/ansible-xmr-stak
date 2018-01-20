@@ -6,7 +6,8 @@ This role will install and configure the mining tool `xmr-stak` on Linux operati
 
 * [Features](#features)
 * [Quickstart](#quickstart)
-  - [Requirements](#requirements)
+  - [Pre-requirements](#pre-requirements)
+  - [Deployment](#deployment)
   - [CPU backend](#cpu)
   - [NVIDIA backend](#nvidia) *(experimental)*
   - [AMD/ATI backend](#amd/ati) *(experimental)*
@@ -27,7 +28,7 @@ Supported algorithms:
 
 ## Quickstart
 
-### Requirements
+### Pre-requirements
 
 Ubuntu/Debian
 ```
@@ -41,6 +42,8 @@ CentOS 7
 ```
 $ sudo yum install python-pip -y
 ```
+
+### Deployment
 
 ```
 $ sudo pip install -U pip ansible
