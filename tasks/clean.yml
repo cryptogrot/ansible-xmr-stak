@@ -10,7 +10,7 @@
     {% if ansible_os_family == "RedHat" %}
       yum clean all
     {% elif ansible_os_family == "Debian" %}
-      apt clean && apt autoremove -y
+      apt autoclean && apt autoremove -y
     {% endif%}
   args:
     warn: false
